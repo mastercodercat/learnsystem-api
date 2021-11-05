@@ -4,7 +4,11 @@ import db from "../db";
 
 export const fetchAll = async (req: express.Request, res: express.Response) => {
   try {
-    const strategies = await db.v2_code.findMany({});
+    const strategies = await db.v2_boost.findMany({
+      orderBy: {
+        title: "asc",
+      },
+    });
     return res.json({ strategies });
   } catch (error) {
     console.log(error);
