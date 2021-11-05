@@ -1909,12 +1909,14 @@ model v2_boost {
   created_at     DateTime?          @db.Timestamp(0)
   updated_at     DateTime?          @db.Timestamp(0)
   deleted_at     DateTime?          @db.Timestamp(0)
+  code           v2_code?
 }
 
 model v2_code {
   id          Int          @id @default(autoincrement()) @db.UnsignedInt
   code        String?      @db.VarChar(11)
-  ref_id      Int?
+  ref_id      Int?         @db.UnsignedInt@unique
+  boost       v2_boost?    @relation(fields: [ref_id], references: [id], map: "v2_code_ref_id_fkey")
   type        v2_code_type
   crreated_at DateTime?    @db.Timestamp(0)
   updated_at  DateTime?    @db.Timestamp(0)
