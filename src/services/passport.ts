@@ -1,14 +1,14 @@
-import passport from "passport";
+import passport, { authenticate } from "passport";
 import { Strategy as JwtStrategy } from "passport-jwt";
 import { ExtractJwt } from "passport-jwt";
 
 import db from "../db";
-import config from "../config";
+import { getPublicKey } from "../utils/auth";
 
 // setting the jwt strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: config.appSecret,
+  secretOrKey: getPublicKey(),
 };
 
 const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
