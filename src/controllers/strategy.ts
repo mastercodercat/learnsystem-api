@@ -22,7 +22,6 @@ export const createBoost = async (
   res: express.Response
 ) => {
   const { boost } = req.body;
-  console.log("boost", boost);
 
   try {
     let code = "";
@@ -50,8 +49,6 @@ export const createBoost = async (
         },
       },
     });
-
-    console.log(strategy);
 
     return res.json({ strategy });
   } catch (error) {
