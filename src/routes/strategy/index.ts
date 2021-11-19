@@ -8,7 +8,7 @@ import {
 
 const routes = express.Router();
 
-routes.get("/", fetchAll);
+routes.get("/boost", fetchAll);
 routes.get("/:id", fetchStrategy);
 routes.post("/boost", createBoost);
 

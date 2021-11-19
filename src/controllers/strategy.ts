@@ -6,12 +6,12 @@ import db from "../db";
 
 export const fetchAll = async (req: express.Request, res: express.Response) => {
   try {
-    const strategies = await db.v2_boost.findMany({
+    const boosts = await db.v2_boost.findMany({
       orderBy: {
-        title: "asc",
+        id: "asc",
       },
     });
-    return res.json({ strategies });
+    return res.json({ boosts });
   } catch (error) {
     return res.status(400).json({ error });
   }
