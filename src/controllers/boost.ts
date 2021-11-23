@@ -47,7 +47,7 @@ export const createBoost = async (req: Request, res: Response) => {
       },
     });
 
-    return res.json({ strategy });
+    return res.json(strategy);
   } catch (error) {
     logger.error(error);
     return res.status(400).json(error);
@@ -65,7 +65,7 @@ export const fetchBoost = async (req: Request, res: Response) => {
       },
     });
 
-    return res.json({ boost });
+    return res.json(boost);
   } catch (error) {
     logger.error(error);
     return res.status(400).json(error);
@@ -87,7 +87,7 @@ export const updateBoost = async (req: Request, res: Response) => {
       },
     });
 
-    return res.json({ boost: updated });
+    return res.json(updated);
   } catch (error) {
     logger.error(error);
     return res.status(400).json(error);
@@ -105,7 +105,7 @@ export const deleteBoost = async (req: Request, res: Response) => {
       },
     });
 
-    return res.json({ boost: deleted });
+    return res.json(deleted);
   } catch (error) {
     logger.error(error);
     return res.status(400).json(error);
