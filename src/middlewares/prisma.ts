@@ -50,11 +50,6 @@ export const softDeleteMiddleware = async (params, next) => {
       }
       break;
 
-    case "update":
-      params.action = "updateMany";
-      params.args.where["deleted_at"] = null;
-      break;
-
     case "updateMany":
       if (!params.args.where) {
         params.args.where["deleted_at"] = null;
