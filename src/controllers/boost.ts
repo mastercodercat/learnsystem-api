@@ -7,6 +7,13 @@ import db from "../db";
 export const fetchAll = async (req: Request, res: Response) => {
   try {
     const boosts = await db.v2_boost.findMany({
+      include: {
+        code: {
+          select: {
+            code: true,
+          },
+        },
+      },
       orderBy: {
         id: "asc",
       },
