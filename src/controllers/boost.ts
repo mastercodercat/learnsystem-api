@@ -84,13 +84,14 @@ export const updateBoost = async (req: Request, res: Response) => {
     const { id } = req.params;
     const parsedId = parseInt(id, 10);
     const { boost } = req.body;
+    const { code, ...newBoost } = boost;
 
     const updated = await db.v2_boost.update({
       where: {
         id: parsedId,
       },
       data: {
-        ...boost,
+        ...newBoost,
       },
     });
 
