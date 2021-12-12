@@ -20,6 +20,7 @@ export const fetchAll = async (req: Request, res: Response) => {
     });
     return res.json({ boosts });
   } catch (error) {
+    logger.error(error);
     return res.status(400).json({ error });
   }
 };

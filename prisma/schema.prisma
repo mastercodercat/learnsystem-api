@@ -1896,31 +1896,29 @@ model users {
 }
 
 model v2_boost {
-  id             Int                @id @default(autoincrement()) @db.UnsignedInt
+  id             Int                      @id @default(autoincrement()) @db.UnsignedInt
   type           v2_boost_type
   subject        v2_boost_subject?
   category       v2_boost_category?
-  title          String?            @db.VarChar(256)
-  subtitle       String?            @db.VarChar(256)
-  cognitive_eval String?            @db.VarChar(256)
-  media          String?            @db.VarChar(256)
-  video          String?            @db.VarChar(256)
-  content        String?            @db.Text
-  created_at     DateTime?          @db.Timestamp(0)
-  updated_at     DateTime?          @db.Timestamp(0)
-  deleted_at     DateTime?          @db.Timestamp(0)
-  code           v2_code?
+  title          String?                  @db.VarChar(256)
+  subtitle       String?                  @db.VarChar(256)
+  cognitive_eval v2_boost_cognitive_eval?
+  media          String?                  @db.VarChar(256)
+  video          String?                  @db.VarChar(256)
+  content        String?                  @db.Text
+  created_at     DateTime?                @db.Timestamp(0)
+  updated_at     DateTime?                @db.Timestamp(0)
+  deleted_at     DateTime?                @db.Timestamp(0)
 }
 
 model v2_code {
   id          Int          @id @default(autoincrement()) @db.UnsignedInt
   code        String?      @db.VarChar(11)
-  ref_id      Int?         @unique @db.UnsignedInt
+  ref_id      Int?
   type        v2_code_type
   crreated_at DateTime?    @db.Timestamp(0)
   updated_at  DateTime?    @db.Timestamp(0)
   deleted_at  DateTime?    @db.Timestamp(0)
-  boost       v2_boost?    @relation(fields: [ref_id], references: [id])
 }
 
 model v2_integrations {
@@ -1972,6 +1970,21 @@ model v2_users {
   created_at        DateTime  @default(now())
   updated_at        DateTime  @updatedAt
   deleted_at        DateTime?
+}
+
+model v2_contact_form {
+  id       Int      @id @default(autoincrement()) @db.UnsignedInt
+  first    String?  @db.VarChar(255)
+  last     String?  @db.VarChar(255)
+  email    String?  @db.VarChar(255)
+  phone    String?  @db.VarChar(255)
+  role     Int?
+  org      String?  @db.VarChar(255)
+  comments String?  @db.VarChar(255)
+  updates  Boolean?
+  demo     Boolean?
+  source   String?  @db.VarChar(255)
+  purchase Boolean?
 }
 
 enum ap_entities_type {
@@ -2116,4 +2129,19 @@ enum v2_code_type {
 
 enum v2_integrations_type {
   testprep
+}
+
+enum v2_boost_cognitive_eval {
+  Best_Practice @map("Best Practice")
+  Faster_Pace___Support_Executive_Functions @map("Faster Pace / Support Executive Functions")
+  Slower_Pace_Support_Flexible_Thinking @map("Slower Pace/Support Flexible Thinking")
+  Stronger_Verbal_Reasoning @map("Stronger Verbal Reasoning")
+  Stronger_Verbal_Skills @map("Stronger Verbal Skills")
+  Stronger_Visual_Reasoning @map("Stronger Visual Reasoning")
+  Stronger_Visual_Skills @map("Stronger Visual Skills")
+  Support_Anxiety @map("Support Anxiety")
+  Support_Executive_Functions @map("Support Executive Functions")
+  Support_Flexible_Thinking @map("Support Flexible Thinking")
+  Support_Visual_Spatial_Skills @map("Support Visual-Spatial Skills")
+  Test_Taking @map("Test Taking")
 }
