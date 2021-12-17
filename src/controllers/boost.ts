@@ -52,12 +52,13 @@ export const createBoost = async (req: Request, res: Response) => {
         ...boost,
         video: getVideoSuffix(boost.video),
         cognitive_eval: v2_boost_cognitive_eval[boost.cognitive_eval],
-        code: {
-          create: {
-            code,
-            type: "boost",
-          },
-        },
+      },
+    });
+    const vCode = await db.v2_code.create({
+      data: {
+        code,
+        type: "boost",
+        ref_id: strategy.id,
       },
     });
 
