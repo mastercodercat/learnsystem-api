@@ -14,6 +14,9 @@ export default {
     process.env.APP_QRCODE_URL ||
     "https://api.qrserver.com/v1/create-qr-code/?size=200x200",
 
+  awsAccessKey: process.env.AWS_ACCESS_KEY || "",
+  awsSecretKey: process.env.AWS_SECRET_KEY || "",
+
   // database configurations
   databaseHost:
     process.env.DATABASE_HOST || "development.mindprintlearning.com",

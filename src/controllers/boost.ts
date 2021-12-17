@@ -1,9 +1,9 @@
 import express, { Request, Response } from "express";
 import rs from "randomstring";
-import axios from "axios";
 
 import { v2_boost_cognitive_eval } from "@prisma/client";
 import logger from "../utils/logger";
+import { upload, saveFile } from "../utils/aws";
 import { getVideoSuffix } from "../utils/text-utils";
 import db from "../db";
 import config from "../config";
@@ -62,7 +62,9 @@ export const createBoost = async (req: Request, res: Response) => {
     });
 
     const url = `${config.appSiteUrl}/boost/${code}`;
-    const response = await axios.get(`${config.appQRCodeUrl}&data=${url}`);
+
+    await saveFile(`${config.appQRCodeUrl}&data=${url}`, "code.png");
+    await upload("code.png", `strategies/qr-codes/${code}.png`);
 
     return res.json(strategy);
   } catch (error) {
