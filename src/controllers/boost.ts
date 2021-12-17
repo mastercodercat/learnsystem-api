@@ -1,8 +1,12 @@
 import express, { Request, Response } from "express";
 import rs from "randomstring";
+import axios from "axios";
 
+import { v2_boost_cognitive_eval } from "@prisma/client";
 import logger from "../utils/logger";
+import { getVideoSuffix } from "../utils/text-utils";
 import db from "../db";
+import config from "../config";
 
 export const fetchAll = async (req: Request, res: Response) => {
   try {
@@ -46,6 +50,8 @@ export const createBoost = async (req: Request, res: Response) => {
     const strategy = await db.v2_boost.create({
       data: {
         ...boost,
+        video: getVideoSuffix(boost.video),
+        cognitive_eval: v2_boost_cognitive_eval[boost.cognitive_eval],
         code: {
           create: {
             code,
@@ -54,6 +60,9 @@ export const createBoost = async (req: Request, res: Response) => {
         },
       },
     });
+
+    const url = `${config.appSiteUrl}/boost/${code}`;
+    const response = await axios.get(`${config.appQRCodeUrl}&data=${url}`);
 
     return res.json(strategy);
   } catch (error) {
