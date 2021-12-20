@@ -1,5 +1,4 @@
 import express from "express";
-import bodyParser from "body-parser";
 import cors from "cors";
 import passport from "passport";
 
@@ -12,8 +11,12 @@ import Logger from "./utils/logger";
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 app.use(cors());
 app.use(passport.initialize());
 

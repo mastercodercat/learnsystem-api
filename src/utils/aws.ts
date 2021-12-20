@@ -1,4 +1,3 @@
-import multer from "multer";
 import AWS from "aws-sdk";
 import fs from "fs";
 import axios from "axios";
@@ -7,10 +6,10 @@ import config from "../config";
 AWS.config.update({
   accessKeyId: config.awsAccessKey,
   secretAccessKey: config.awsSecretKey,
-  region: "us-east-1",
+  region: config.awsRegion,
 });
 
-const s3 = new AWS.S3();
+export const s3 = new AWS.S3();
 
 export const saveFile = async (url: string, target) => {
   const response = await axios({
@@ -33,14 +32,14 @@ export const saveFile = async (url: string, target) => {
   await save();
 };
 
-export const upload = (source, target) =>
+export const upload = (source: string, target: string) =>
   new Promise((resolve, reject) => {
     fs.readFile(source, (err, fileData) => {
       if (err) {
         reject(err);
       } else {
         const putParams = {
-          Bucket: "mindprint-general",
+          Bucket: config.awsBucketName,
           Key: target,
           Body: fileData,
         };

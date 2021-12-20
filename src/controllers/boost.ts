@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import rs from "randomstring";
 
 import { v2_boost_cognitive_eval } from "@prisma/client";
 import logger from "../utils/logger";
@@ -29,43 +28,41 @@ export const fetchAll = async (req: Request, res: Response) => {
   }
 };
 
-export const createBoost = async (req: Request, res: Response) => {
-  const { boost } = req.body;
+export const createBoost = async (req, res) => {
+  const { image, ...boost } = req.body;
 
   try {
-    let code = "";
-    let isExisting = null;
-    do {
-      code = rs.generate({
-        length: 4,
-        charset: "0123456789abcdefghjkmnpqrstuvwxyz",
-      });
-      isExisting = await db.v2_code.findFirst({
-        where: {
-          code,
-        },
-      });
-    } while (!!isExisting);
+    let data = {
+      ...boost,
+      video: getVideoSuffix(boost.video),
+      cognitive_eval: v2_boost_cognitive_eval[boost.cognitive_eval],
+    };
+
+    if (req.file) {
+      data = {
+        ...data,
+        media: `${req.code}.png`,
+      };
+    }
 
     const strategy = await db.v2_boost.create({
-      data: {
-        ...boost,
-        video: getVideoSuffix(boost.video),
-        cognitive_eval: v2_boost_cognitive_eval[boost.cognitive_eval],
-      },
+      data,
     });
     const vCode = await db.v2_code.create({
       data: {
-        code,
+        code: req.code,
         type: "boost",
         ref_id: strategy.id,
       },
     });
 
-    const url = `${config.appSiteUrl}/boost/${code}`;
+    const url = `${config.appSiteUrl}/boost/${req.code}`;
 
     await saveFile(`${config.appQRCodeUrl}&data=${url}`, "code.png");
-    await upload("code.png", `strategies/qr-codes/${code}.png`);
+    await upload(
+      "code.png",
+      `${config.awsStrategyName}/${config.awsQRCodeName}/${req.code}.png`
+    );
 
     return res.json(strategy);
   } catch (error) {
@@ -92,20 +89,36 @@ export const fetchBoost = async (req: Request, res: Response) => {
   }
 };
 
-export const updateBoost = async (req: Request, res: Response) => {
+export const updateBoost = async (req, res) => {
   try {
     const { id } = req.params;
     const parsedId = parseInt(id, 10);
-    const { boost } = req.body;
-    const { code, ...newBoost } = boost;
+    const {
+      code,
+      image,
+      id: boostId,
+      created_at,
+      updated_at,
+      deleted_at,
+      ...boost
+    } = req.body;
+    let data = {
+      ...boost,
+      video: getVideoSuffix(boost.video),
+      cognitive_eval: v2_boost_cognitive_eval[boost.cognitive_eval],
+    };
+    if (req.file) {
+      data = {
+        ...data,
+        media: `${req.code}.png`,
+      };
+    }
 
     const updated = await db.v2_boost.update({
       where: {
         id: parsedId,
       },
-      data: {
-        ...newBoost,
-      },
+      data,
     });
 
     return res.json(updated);
