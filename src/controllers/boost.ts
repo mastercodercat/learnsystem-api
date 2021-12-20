@@ -64,7 +64,10 @@ export const createBoost = async (req, res) => {
       `${config.awsStrategyName}/${config.awsQRCodeName}/${req.code}.png`
     );
 
-    return res.json(strategy);
+    return res.json({
+      ...strategy,
+      code: vCode,
+    });
   } catch (error) {
     logger.error(error);
     return res.status(400).json(error);
