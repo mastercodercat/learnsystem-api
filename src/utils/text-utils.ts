@@ -7,7 +7,7 @@ export const getVideoSuffix = (video: string) => {
     return "";
   }
   if (video.split("watch?v=").length < 2) {
-    return "";
+    return video;
   }
   return video.split("watch?v=")[1];
 };
