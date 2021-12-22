@@ -118,6 +118,13 @@ export const updateBoost = async (req, res) => {
     }
 
     const updated = await db.v2_boost.update({
+      include: {
+        code: {
+          select: {
+            code: true,
+          }
+        }
+      },
       where: {
         id: parsedId,
       },
