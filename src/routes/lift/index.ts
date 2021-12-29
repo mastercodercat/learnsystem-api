@@ -15,7 +15,7 @@ const routes = express.Router();
 routes.get("", fetchAll);
 routes.post("", generateCode, upload.single("image"), createLift);
 routes.get("/:id", fetchLift);
-routes.put("/:id", getCode, upload.single("image"), updateLift);
+routes.put("/:id", getCode("lift"), upload.single("image"), updateLift);
 routes.delete("/:id", deleteLift);
 
 export default routes;

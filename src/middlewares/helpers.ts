@@ -8,23 +8,17 @@ export const generateCode = async (req, res, next) => {
   next();
 };
 
-export const getCode = async (req, res, next) => {
+export const getCode = (type: "boost" | "lift") => async (req, res, next) => {
   const { id } = req.params;
   const parsedId = parseInt(id, 10);
 
-  const boost = await db.v2_boost.findFirst({
+  const code = await db.v2_code.findFirst({
     where: {
-      id: parsedId,
-    },
-    include: {
-      code: {
-        select: {
-          code: true,
-        },
-      },
+      ref_id: parsedId,
+      type: type,
     },
   });
 
-  req.code = boost?.code?.code;
+  req.code = code?.code;
   next();
 };

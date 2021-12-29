@@ -15,7 +15,7 @@ const routes = express.Router();
 routes.get("", fetchAll);
 routes.post("", generateCode, upload.single("image"), createBoost);
 routes.get("/:id", fetchBoost);
-routes.put("/:id", getCode, upload.single("image"), updateBoost);
+routes.put("/:id", getCode("boost"), upload.single("image"), updateBoost);
 routes.delete("/:id", deleteBoost);
 
 export default routes;

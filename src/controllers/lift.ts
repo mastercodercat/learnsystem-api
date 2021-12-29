@@ -9,18 +9,10 @@ import config from "../config";
 
 export const fetchAll = async (req: Request, res: Response) => {
   try {
-    const lifts = await db.v2_lift.findMany({
-      include: {
-        code: {
-          select: {
-            code: true,
-          },
-        },
-      },
-      orderBy: {
-        id: "asc",
-      },
-    });
+    const lifts = await db.$queryRaw`
+      SELECT v2_lift.*, v2_code.code from v2_lift
+      LEFT JOIN v2_code ON v2_lift.id = v2_code.ref_id AND v2_code.type = 'lift'
+    `;
     return res.json({ lifts });
   } catch (error) {
     logger.error(error);
@@ -48,8 +40,9 @@ export const createLift = async (req, res) => {
     const strategy = await db.v2_lift.create({
       data,
     });
-    const vCode = await db.v2_lift_code.create({
+    const vCode = await db.v2_code.create({
       data: {
+        type: "lift",
         code: req.code,
         ref_id: strategy.id,
       },
@@ -117,20 +110,16 @@ export const updateLift = async (req, res) => {
     }
 
     const updated = await db.v2_lift.update({
-      include: {
-        code: {
-          select: {
-            code: true,
-          },
-        },
-      },
       where: {
         id: parsedId,
       },
       data,
     });
 
-    return res.json(updated);
+    return res.json({
+      ...updated,
+      code: req.code,
+    });
   } catch (error) {
     logger.error(error);
     return res.status(400).json(error);

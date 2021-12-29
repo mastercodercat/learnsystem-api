@@ -9,18 +9,10 @@ import config from "../config";
 
 export const fetchAll = async (req: Request, res: Response) => {
   try {
-    const boosts = await db.v2_boost.findMany({
-      include: {
-        code: {
-          select: {
-            code: true,
-          },
-        },
-      },
-      orderBy: {
-        id: "asc",
-      },
-    });
+    const boosts = await db.$queryRaw`
+      SELECT v2_boost.*, v2_code.code from v2_boost
+      LEFT JOIN v2_code ON v2_boost.id = v2_code.ref_id AND v2_code.type = 'boost'
+    `;
     return res.json({ boosts });
   } catch (error) {
     logger.error(error);
@@ -118,20 +110,16 @@ export const updateBoost = async (req, res) => {
     }
 
     const updated = await db.v2_boost.update({
-      include: {
-        code: {
-          select: {
-            code: true,
-          }
-        }
-      },
       where: {
         id: parsedId,
       },
       data,
     });
 
-    return res.json(updated);
+    return res.json({
+      ...updated,
+      code: req.code,
+    });
   } catch (error) {
     logger.error(error);
     return res.status(400).json(error);
