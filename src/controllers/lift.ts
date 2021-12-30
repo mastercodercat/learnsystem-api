@@ -12,6 +12,7 @@ export const fetchAll = async (req: Request, res: Response) => {
     const lifts = await db.$queryRaw`
       SELECT v2_lift.*, v2_code.code from v2_lift
       LEFT JOIN v2_code ON v2_lift.id = v2_code.ref_id AND v2_code.type = 'lift'
+      WHERE v2_lift.deleted_at IS NULL
     `;
     return res.json({ lifts });
   } catch (error) {
