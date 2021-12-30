@@ -58,7 +58,7 @@ export const createBoost = async (req, res) => {
 
     return res.json({
       ...strategy,
-      code: vCode,
+      code: req.code,
     });
   } catch (error) {
     logger.error(error);
