@@ -27,6 +27,9 @@ export const createLift = async (req, res) => {
   try {
     let data = {
       ...lift,
+      elementary_school: lift.elementary_school === "true",
+      middle_school: lift.middle_school === "true",
+      high_school: lift.high_school === "true",
       video: getVideoSuffix(lift.video),
       cognitive_eval: v2_lift_cognitive_eval[lift.cognitive_eval],
     };
@@ -100,6 +103,9 @@ export const updateLift = async (req, res) => {
     } = req.body;
     let data = {
       ...lift,
+      elementary_school: lift.elementary_school === "true",
+      middle_school: lift.middle_school === "true",
+      high_school: lift.high_school === "true",
       video: getVideoSuffix(lift.video),
       cognitive_eval: v2_lift_cognitive_eval[lift.cognitive_eval],
     };

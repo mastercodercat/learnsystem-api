@@ -1991,19 +1991,21 @@ model v2_contact_form {
 }
 
 model v2_lift {
-  id             Int                     @id @default(autoincrement()) @db.UnsignedInt
-  type           v2_lift_type
-  subject        v2_lift_subject?
-  title          String?                 @db.VarChar(256)
-  subtitle       String?                 @db.VarChar(256)
-  cognitive_eval v2_lift_cognitive_eval?
-  media3         String?                 @db.VarChar(256)
-  media          String?                 @db.VarChar(256)
-  video          String?                 @db.VarChar(256)
-  content        String?                 @db.Text
-  created_at     DateTime?               @default(now()) @db.Timestamp(0)
-  updated_at     DateTime?               @db.Timestamp(0)
-  deleted_at     DateTime?               @db.Timestamp(0)
+  id                Int                     @id @default(autoincrement()) @db.UnsignedInt
+  subject           v2_lift_subject?
+  title             String?                 @db.VarChar(256)
+  subtitle          String?                 @db.VarChar(256)
+  cognitive_eval    v2_lift_cognitive_eval?
+  elementary_school Boolean                 @default(false)
+  middle_school     Boolean                 @default(false)
+  high_school       Boolean                 @default(false)
+  media3            String?                 @db.VarChar(256)
+  media             String?                 @db.VarChar(256)
+  video             String?                 @db.VarChar(256)
+  content           String?                 @db.Text
+  created_at        DateTime?               @default(now()) @db.Timestamp(0)
+  updated_at        DateTime?               @db.Timestamp(0)
+  deleted_at        DateTime?               @db.Timestamp(0)
 }
 
 enum ap_entities_type {
@@ -2048,11 +2050,11 @@ enum learning_profiles_status {
 
 enum learning_profiles_display_mode {
   default
-  mindprint_scores        @map("mindprint-scores")
-  mindprint_assist        @map("mindprint-assist")
-  mindprint_att_screener  @map("mindprint-att-screener")
-  mindprint_etswm         @map("mindprint-etswm")
-  mindprint_etsvrwmvmspa  @map("mindprint-etsvrwmvmspa")
+  mindprint_scores @map("mindprint-scores")
+  mindprint_assist @map("mindprint-assist")
+  mindprint_att_screener @map("mindprint-att-screener")
+  mindprint_etswm @map("mindprint-etswm")
+  mindprint_etsvrwmvmspa @map("mindprint-etsvrwmvmspa")
 }
 
 enum learning_profiles_backup_status {
@@ -2066,14 +2068,14 @@ enum learning_profiles_backup_status {
 
 enum learning_profiles_backup_display_mode {
   default
-  mindprint_scores        @map("mindprint-scores")
-  mindprint_assist        @map("mindprint-assist")
-  mindprint_att_screener  @map("mindprint-att-screener")
+  mindprint_scores @map("mindprint-scores")
+  mindprint_assist @map("mindprint-assist")
+  mindprint_att_screener @map("mindprint-att-screener")
 }
 
 enum magento_orders_magento_product_attr_plan_activation {
-  on_purchase    @map("on-purchase")
-  on_assignment  @map("on-assignment")
+  on_purchase @map("on-purchase")
+  on_assignment @map("on-assignment")
 }
 
 enum magento_orders_mindprint_status {
@@ -2083,11 +2085,11 @@ enum magento_orders_mindprint_status {
 
 enum magento_orders_magento_product_attr_display_mode {
   default
-  mindprint_scores        @map("mindprint-scores")
-  mindprint_assist        @map("mindprint-assist")
-  mindprint_att_screener  @map("mindprint-att-screener")
-  mindprint_etswm         @map("mindprint-etswm")
-  mindprint_etsvrwmvmspa  @map("mindprint-etsvrwmvmspa")
+  mindprint_scores @map("mindprint-scores")
+  mindprint_assist @map("mindprint-assist")
+  mindprint_att_screener @map("mindprint-att-screener")
+  mindprint_etswm @map("mindprint-etswm")
+  mindprint_etsvrwmvmspa @map("mindprint-etsvrwmvmspa")
 }
 
 enum organizations_group_mode {
@@ -2151,23 +2153,18 @@ enum v2_integrations_type {
 }
 
 enum v2_boost_cognitive_eval {
-  Best_Practice                              @map("Best Practice")
-  Faster_Pace___Support_Executive_Functions  @map("Faster Pace / Support Executive Functions")
-  Slower_Pace_Support_Flexible_Thinking      @map("Slower Pace/Support Flexible Thinking")
-  Stronger_Verbal_Reasoning                  @map("Stronger Verbal Reasoning")
-  Stronger_Verbal_Skills                     @map("Stronger Verbal Skills")
-  Stronger_Visual_Reasoning                  @map("Stronger Visual Reasoning")
-  Stronger_Visual_Skills                     @map("Stronger Visual Skills")
-  Support_Anxiety                            @map("Support Anxiety")
-  Support_Executive_Functions                @map("Support Executive Functions")
-  Support_Flexible_Thinking                  @map("Support Flexible Thinking")
-  Support_Visual_Spatial_Skills              @map("Support Visual-Spatial Skills")
-  Test_Taking                                @map("Test Taking")
-}
-
-enum v2_lift_type {
-  checklist
-  strategy
+  Best_Practice @map("Best Practice")
+  Faster_Pace___Support_Executive_Functions @map("Faster Pace / Support Executive Functions")
+  Slower_Pace_Support_Flexible_Thinking @map("Slower Pace/Support Flexible Thinking")
+  Stronger_Verbal_Reasoning @map("Stronger Verbal Reasoning")
+  Stronger_Verbal_Skills @map("Stronger Verbal Skills")
+  Stronger_Visual_Reasoning @map("Stronger Visual Reasoning")
+  Stronger_Visual_Skills @map("Stronger Visual Skills")
+  Support_Anxiety @map("Support Anxiety")
+  Support_Executive_Functions @map("Support Executive Functions")
+  Support_Flexible_Thinking @map("Support Flexible Thinking")
+  Support_Visual_Spatial_Skills @map("Support Visual-Spatial Skills")
+  Test_Taking @map("Test Taking")
 }
 
 enum v2_lift_subject {
@@ -2179,16 +2176,16 @@ enum v2_lift_subject {
 }
 
 enum v2_lift_cognitive_eval {
-  Best_Practice                              @map("Best Practice")
-  Faster_Pace___Support_Executive_Functions  @map("Faster Pace / Support Executive Functions")
-  Slower_Pace_Support_Flexible_Thinking      @map("Slower Pace/Support Flexible Thinking")
-  Stronger_Verbal_Reasoning                  @map("Stronger Verbal Reasoning")
-  Stronger_Verbal_Skills                     @map("Stronger Verbal Skills")
-  Stronger_Visual_Reasoning                  @map("Stronger Visual Reasoning")
-  Stronger_Visual_Skills                     @map("Stronger Visual Skills")
-  Support_Anxiety                            @map("Support Anxiety")
-  Support_Executive_Functions                @map("Support Executive Functions")
-  Support_Flexible_Thinking                  @map("Support Flexible Thinking")
-  Support_Visual_Spatial_Skills              @map("Support Visual-Spatial Skills")
-  Test_Taking                                @map("Test Taking")
+  Best_Practice @map("Best Practice")
+  Faster_Pace___Support_Executive_Functions @map("Faster Pace / Support Executive Functions")
+  Slower_Pace_Support_Flexible_Thinking @map("Slower Pace/Support Flexible Thinking")
+  Stronger_Verbal_Reasoning @map("Stronger Verbal Reasoning")
+  Stronger_Verbal_Skills @map("Stronger Verbal Skills")
+  Stronger_Visual_Reasoning @map("Stronger Visual Reasoning")
+  Stronger_Visual_Skills @map("Stronger Visual Skills")
+  Support_Anxiety @map("Support Anxiety")
+  Support_Executive_Functions @map("Support Executive Functions")
+  Support_Flexible_Thinking @map("Support Flexible Thinking")
+  Support_Visual_Spatial_Skills @map("Support Visual-Spatial Skills")
+  Test_Taking @map("Test Taking")
 }
