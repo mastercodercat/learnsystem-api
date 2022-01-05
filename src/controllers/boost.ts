@@ -26,6 +26,9 @@ export const createBoost = async (req, res) => {
   try {
     let data = {
       ...boost,
+      elementary_school: boost.elementary_school === "true",
+      middle_school: boost.middle_school === "true",
+      high_school: boost.high_school === "true",
       video: getVideoSuffix(boost.video),
       cognitive_eval: v2_boost_cognitive_eval[boost.cognitive_eval],
     };
@@ -99,6 +102,9 @@ export const updateBoost = async (req, res) => {
     } = req.body;
     let data = {
       ...boost,
+      elementary_school: boost.elementary_school === "true",
+      middle_school: boost.middle_school === "true",
+      high_school: boost.high_school === "true",
       video: getVideoSuffix(boost.video),
       cognitive_eval: v2_boost_cognitive_eval[boost.cognitive_eval],
     };
