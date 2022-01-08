@@ -1,4 +1,4 @@
-# MindPrintLearning API
+# LearnSystem API
 
 ## Application Dependencies
 
